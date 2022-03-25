@@ -1,14 +1,20 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {AppContainer, AppToolType} from "./appContainer";
 import {SideBar} from "./sidebar";
 
 interface TAppContext {
-  activeToolId: string;
+  delegate: AppContainer,
+  isMobile: boolean,
+  activeToolId: string,
+  setProcessing: () => void
 }
 
 const AppContext = React.createContext<TAppContext>({
+  delegate: undefined,
   isMobile: false,
   activeToolId: null,
+  setProcessing: undefined
 });
 
 export const useAppContext = () => useContext(AppContext);
@@ -52,6 +58,7 @@ export function Provider(props: TProvider) {
     }, 400);
   }
 
+  // @ts-ignore
   const provided = {
     delegate: props.delegate,
     activeToolId,

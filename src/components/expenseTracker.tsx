@@ -25,6 +25,8 @@ export function ExpenseTracker() {
     delegate,
   } = useAppContext();
 
+  const [loading, setLoading] = useState(false);
+
   const {handleSubmit, handleChange, data: expense, errors} = useForm<Expense>({
     validations: {
       clientName: {
@@ -64,6 +66,7 @@ export function ExpenseTracker() {
   });
 
   const submitExpenseForm = () => {
+    setLoading(true)
     let parsedAmount = parseCurrencyAsFloat(expense.amount);
     let parsedDate = Date.parse(expense.date) || Date.now();
 
@@ -75,7 +78,11 @@ export function ExpenseTracker() {
         date: parsedDate,
         note: expense.note
       }
-    ]);
+    ]).then(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    });
 
     // reset input values when form is submitted
     expense.clientName = "";
@@ -120,6 +127,7 @@ export function ExpenseTracker() {
                    type={"text"}
                    value={expense.amount || ''}
                    onChange={handleChange('amount')}
+                   // @ts-ignore
                    onBlur={handleChange('amount', formatCurrencyInput.format)}
             />
             {errors.amount && <div className="form__error" data-error-id={"amount"}>{errors.amount}</div>}
@@ -141,12 +149,19 @@ export function ExpenseTracker() {
                     name={"note"}
                     placeholder={"Enter payment notes here..."}
                     value={expense.note || ''}
+                    // @ts-ignore
                     onChange={handleChange('note')}
                     style={{width: "100%", resize: "none"}}
           />
         </div>
-        <div>
+        <div style={{display: "flex", alignItems: "center"}}>
           <button type={"submit"} className={"btn-action"}>Record Expense</button>
+          <div className="lds-ellipsis" style={{opacity: loading ? 1 : 0, marginLeft: "20px"}}>
+            <div/>
+            <div/>
+            <div/>
+            <div/>
+          </div>
         </div>
       </form>
 
@@ -157,43 +172,53 @@ export function ExpenseTracker() {
 
 export function ExpensesLedger(props: any) {
   const {
-    delegate
+    delegate,
+    isMobile,
   } = useAppContext();
 
   const [expenses, setExpenses] = useState([]);
-
-  // update table rows when the collection is updated
-  delegate.dbc.expenseCollection.subscribe(changeEvent => {
-    delegate.dbc.expenseCollection.get().then((expenses) => {
-      setExpenses(expenses);
-    })
-  });
 
   // update table rows when the data is initially retrieved
   useEffect(() => {
     delegate.dbc.expenseCollection.get().then((expenses) => {
       setExpenses(expenses);
     });
+
+    // update table rows when the collection is updated
+    delegate.dbc.expenseCollection.subscribe(changeEvent => {
+      delegate.dbc.expenseCollection.get().then((expenses) => {
+        setExpenses(expenses);
+      })
+    });
   }, []);
 
   let deleteBtn = (expense) => {
-    return (
-      <div className={"btn-delete--small"}
-           onClick={() => delegate.dbc.expenseCollection.delete([expense.id])}>
-        <LineIcon name={"cross-circle"}/>
-      </div>
-    );
+    if (isMobile) {
+      return (
+        <div className={"btn-delete"}
+             onClick={() => delegate.dbc.expenseCollection.delete([expense.id])}>
+          Delete
+        </div>
+      );
+    } else {
+      return (
+        <div className={"btn-delete btn-delete--small"}
+             onClick={() => delegate.dbc.expenseCollection.delete([expense.id])}>
+          <LineIcon name={"cross-circle"}/>
+        </div>
+      );
+    }
   }
 
   let expenseRows = map(expenses, (expense) => {
     return {
       cells: [
-        {content: expense.clientName, width: "20%"},
-        {content: expense.payeeName, width: "20%"},
+        {content: expense.clientName, width: "18%"},
+        {content: expense.payeeName, width: "18%"},
         {content: convertNumberToCurrency(expense.amount), width: "20%"},
         {content: makeDateNowReadable(expense.timestamp), width: "20%"},
         {content: expense.note, width: "20%", grow: true},
-        {content: deleteBtn(expense), pushRight: true},
+        {content: deleteBtn(expense), width: "2%", pushRight: true},
       ],
     };
   });
@@ -201,11 +226,12 @@ export function ExpensesLedger(props: any) {
   return (
     <div className={"expenses-ledger"}>
       <Table headers={[
-        {content: "Client Name", width: "20%"},
-        {content: "Payee Name", width: "20%"},
+        {content: "Client Name", width: "18%"},
+        {content: "Payee Name", width: "18%"},
         {content: "Amount", width: "20%"},
         {content: "Date", width: "20%"},
-        {content: "Note", width: "20%", grow: true}
+        {content: "Note", width: "20%", grow: true},
+        {content: "", width: "2%"}
       ]}
              rows={expenseRows}/>
     </div>

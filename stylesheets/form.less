@@ -76,12 +76,12 @@ button.btn-action {
   }
 }
 
-.btn-delete--small {
+.btn-delete {
   background: transparent;
-  border-radius: 50%;
-  width: 16px;
-  height: 16px;
-  display: flex;
+  border: 1px solid #000;
+  border-radius: 20px;
+  padding: 5px 10px;
+  display: inline-block;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -90,5 +90,18 @@ button.btn-action {
   &:hover {
     background: #000;
     color: #fff;
+  }
+
+  &.btn-delete--small {
+    background: transparent;
+    border-radius: 50%;
+    border: 0;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
   }
 }

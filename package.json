@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
+    "@types/react-transition-group": "^4.4.4",
     "animate.css": "^4.1.1",
     "babel-core": "^6.26.3",
     "babel-plugin-macros": "^3.1.0",
@@ -21,6 +22,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-lineicons": "^3.0.0",
+    "react-transition-group": "^4.4.2",
     "rxdb": "^11.6.0",
     "rxjs": "^7.5.5",
     "typescript": "4.6.2",

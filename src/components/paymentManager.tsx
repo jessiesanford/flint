@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import React, {FC, useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {useAppContext} from "./provider";
 import {useForm} from "./useForm";
 import {Table} from "./tableComp";
@@ -24,6 +24,8 @@ export const PaymentManager = () => {
   const {
     delegate,
   } = useAppContext();
+
+  const [loading, setLoading] = useState(false);
 
   const {handleSubmit, handleChange, data: payment, errors} = useForm<Payment>({
     validations: {
@@ -58,11 +60,16 @@ export const PaymentManager = () => {
   });
 
   const submitPaymentForm = () => {
+    setLoading(true);
     let parsedAmount = parseCurrencyAsFloat(payment.amount);
     let parsedDate = Date.parse(payment.date) || Date.now();
     delegate.dbc.paymentCollection.add([
       {senderName: payment.senderName, amount: parsedAmount, date: parsedDate, note: payment.note}
-    ]);
+    ]).then(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    });
     payment.senderName = "";
     payment.amount = "";
     payment.date = currentDateYYYYMMDD();
@@ -95,7 +102,7 @@ export const PaymentManager = () => {
                    type={"text"}
                    value={payment.amount || ''}
                    onChange={handleChange('amount')}
-                   onBlur={handleChange('amount', formatCurrencyInput.format)}
+                   onBlur={() => handleChange('amount', formatCurrencyInput.format)}
             />
             {errors.amount && <div className="form__error" data-error-id={"amount"}>{errors.amount}</div>}
           </div>
@@ -116,12 +123,19 @@ export const PaymentManager = () => {
                     name={"note"}
                     placeholder={"Enter payment notes here..."}
                     value={payment.note || ''}
+                    // @ts-ignore
                     onChange={handleChange('note')}
                     style={{width: "100%", resize: "none"}}
           />
         </div>
-        <div>
+        <div style={{display: "flex", alignItems: "center"}}>
           <button type={"submit"} className={"btn-action"}>Record Payment</button>
+          <div className="lds-ellipsis" style={{opacity: loading ? 1 : 0, marginLeft: "20px"}}>
+            <div/>
+            <div/>
+            <div/>
+            <div/>
+          </div>
         </div>
       </form>
 
@@ -131,37 +145,33 @@ export const PaymentManager = () => {
 }
 
 
-export function PaymentLedger(props: any) {
+export function PaymentLedger() {
   const {
     delegate,
-    setProcessing,
   } = useAppContext();
 
   let [payments, setPayments] = useState([]);
-
-  // update table rows when collection is updated
-  delegate.dbc.paymentCollection.subscribe(changeEvent => {
-    delegate.dbc.paymentCollection.get().then((payments) => {
-      setPayments(payments);
-    });
-  });
 
   // update table rows when data is initially retrieved
   useEffect(() => {
     delegate.dbc.paymentCollection.get().then((payments) => {
       setPayments(payments);
     });
-  }, [])
+
+    // update table rows when collection is updated
+    delegate.dbc.paymentCollection.subscribe(changeEvent => {
+      delegate.dbc.paymentCollection.get().then((payments) => {
+        setPayments(payments);
+      });
+    });
+  }, []);
 
   let deleteBtn = (payment) => {
     return (
       <div className={"btn-delete--small"}
            onClick={() => {
-             setProcessing({text: "Deleting...", hidden: false});
              delegate.dbc.paymentCollection.delete([payment.id]).then(() => {
-               setTimeout(() => {
-                 setProcessing({text: "", hidden: true});
-               }, 600)
+               // show processing in future
              })
            }}>
         <LineIcon name={"cross-circle"}/>
@@ -176,7 +186,7 @@ export function PaymentLedger(props: any) {
         {content: convertNumberToCurrency(payment.amount), width: "20%"},
         {content: makeDateNowReadable(payment.timestamp), width: "20%"},
         {content: truncateString(payment.note || "", 100), width: "20%"},
-        {content: deleteBtn(payment), pushRight: true},
+        {content: deleteBtn(payment), width: "2%", pushRight: true},
       ],
     };
   });
@@ -188,7 +198,8 @@ export function PaymentLedger(props: any) {
           {content: "Sender Name", width: "20%"},
           {content: "Amount", width: "20%"},
           {content: "Date", width: "20%"},
-          {content: "Note", grow: true}
+          {content: "Note", grow: true},
+          {content: "", width: "2%"}
         ]}
              rows={paymentRows}
       />

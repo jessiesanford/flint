@@ -1,0 +1,55 @@
+.payments-ledger,
+.expenses-ledger {
+  margin-top: 40px;
+}
+
+.table__container {
+  font-size: 12pt;
+
+  .table__header {
+    display: flex;
+    align-items: center;
+
+    .table__header-cell {
+      padding: 20px 10px;
+      font-family: Graphik Semibold, Arial, sans-serif;
+    }
+  }
+
+  .table__row {
+    display: flex;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+    transition-timing-function: ease-in;
+
+    .table__cell {
+      padding: 20px 10px;
+      overflow: hidden;
+    }
+
+    .payment-record__date {
+      color: #a0a0a0;
+    }
+  }
+
+  .table__no-rows {
+    background: #fff;
+    padding: 10px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
+    text-align: center;
+  }
+
+  .table__mobile-cell {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    overflow: hidden;
+
+    .table__mobile-cell-header {
+      color: #808080;
+
+    }
+  }
+}

@@ -1,0 +1,94 @@
+label {
+  display: block;
+}
+
+label + input,
+label + textarea {
+  margin-top: 10px;
+}
+
+input[type=text],
+input[type=number] {
+  min-width: 200px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  box-sizing: border-box;
+  outline: none;
+  font-size: 14pt;
+  font-family: "Graphik Regular", arial, sans-serif;
+  transition: all 0.2s;
+
+  &:focus {
+    border-color: #b0b0b0;
+  }
+}
+
+input[type=date] {
+  min-width: 200px;
+  padding: 7px 10px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  box-sizing: border-box;
+  outline: none;
+  font-size: 14pt;
+  font-family: "Graphik Regular", arial, sans-serif;
+  transition: all 0.2s;
+
+  &:focus {
+    border-color: #b0b0b0;
+  }
+}
+
+
+textarea {
+  padding: 10px;
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  outline: none;
+  font-size: 14pt;
+  font-family: "Graphik Regular", arial, sans-serif;
+  transition: all 0.2s;
+
+  &:focus {
+    border-color: #b0b0b0;
+  }
+}
+
+button.btn-action {
+  background: @conduitRedOrange;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-family: "Graphik Semibold", arial, sans-serif;
+  font-size: 14pt;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #000;
+    background: darken(@conduitRedOrange, 15%);
+    cursor: pointer;
+  }
+}
+
+.btn-delete--small {
+  background: transparent;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #000;
+    color: #fff;
+  }
+}

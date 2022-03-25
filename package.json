@@ -1,0 +1,42 @@
+{
+  "name": "conduit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx parcel src/index.html --port 9999",
+    "test": "npx cypress run"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/polyfill": "^7.12.1",
+    "animate.css": "^4.1.1",
+    "babel-core": "^6.26.3",
+    "babel-plugin-macros": "^3.1.0",
+    "format-currency-input": "^0.3.0",
+    "http": "0.0.1-security",
+    "lodash": "4.17.21",
+    "pouchdb-adapter-idb": "^7.2.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-lineicons": "^3.0.0",
+    "rxdb": "^11.6.0",
+    "rxjs": "^7.5.5",
+    "typescript": "4.6.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.7",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@parcel/transformer-less": "^2.3.2",
+    "buffer": "^6.0.3",
+    "cypress": "^9.5.2",
+    "events": "^3.3.0",
+    "less": "^4.1.2",
+    "parcel": "2.3.2",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10"
+  }
+}

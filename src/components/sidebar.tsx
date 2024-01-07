@@ -36,7 +36,7 @@ export function SideBar() {
       <div className={"sidebar__expander"} onClick={() => setSideBarHidden(!sideBarHidden)}>
         <div className={"logo-wrapper"}>
           <div className={"logo-icon"}/>
-          <div className={"logo"}>Conduit</div>
+          <div className={"logo"}>Flint</div>
         </div>
       </div>
       <div className={"sidebar"}>
@@ -44,7 +44,7 @@ export function SideBar() {
           <div className={"sidebar__heading"}>
             <div className={"logo-wrapper"}>
               <div className={"logo-icon"}/>
-              <div className={"logo"}>Conduit</div>
+              <div className={"logo"}>Flint</div>
             </div>
             <div className={"sidebar__collapser"} onClick={() => setSideBarHidden(!sideBarHidden)}>
               <LineIcon name={"cross-circle"}/>

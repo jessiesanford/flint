@@ -117,8 +117,8 @@ export function LoadingSplash() {
     <div className={`splash-loading ${hidden ? "fadeOut hidden" : ""}`} ref={loadingSplashRef}>
       <div className={"splash-loading__container"} ref={containerRef}>
         <div className={"splash-loading__logo"}>
-          <span className={"thick-weight"}>Conduit</span>
-          <span className={"thin-weight"}>Financial</span>
+          <span className={"thick-weight"}>Flint</span>
+          <span className={"thin-weight"}>Track</span>
         </div>
         <div className={"splash-loading__spinner"}>
           <div className="lds-ellipsis">

@@ -8,7 +8,7 @@ import {paymentSchema, expenseSchema} from "./dbSchema";
  */
 export const createDB = async () => {
   const db = await createRxDatabase({
-    name: 'conduit',
+    name: 'flint',
     storage: getRxStoragePouch('idb'),
     multiInstance: true,
     eventReduce: true
